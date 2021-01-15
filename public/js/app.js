@@ -1867,32 +1867,43 @@ var searchInp = document.getElementById('searchInp');
 console.log(searchInp);
 
 var fetchOnInput = /*#__PURE__*/function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee(val) {
-    var data, res, searchOut;
+  var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee(e) {
+    var val, searchOut, data, res;
     return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            _context.next = 2;
+            val = e.target.value;
+            searchOut = document.getElementById('searchOutput');
+
+            if (!(val == '')) {
+              _context.next = 5;
+              break;
+            }
+
+            searchOut.innerHTML = '';
+            return _context.abrupt("return");
+
+          case 5:
+            _context.next = 7;
             return fetch("/searchOnInput?s=".concat(val), {
               method: "GET"
             });
 
-          case 2:
+          case 7:
             data = _context.sent;
-            _context.next = 5;
+            _context.next = 10;
             return data.json();
 
-          case 5:
+          case 10:
             res = _context.sent;
-            searchOut = document.getElementById('searchOutput');
             if (searchOut) searchOut.innerHTML = '';
             res.forEach(function (val) {
               searchOut.innerHTML += "\n                                <li>".concat(val.FullName, " ").concat(val.created_at, "</li>\n                                ");
             });
             console.log(res);
 
-          case 10:
+          case 14:
           case "end":
             return _context.stop();
         }
@@ -1906,12 +1917,48 @@ var fetchOnInput = /*#__PURE__*/function () {
 }();
 
 var receiveVal = function receiveVal(e) {
-  console.log(e.target.value);
-  fetchOnInput(e.target.value);
+  // console.log(e.target.value)
+  // console.log(e.key)
+  // console.log(e)
+  var curTime = 0;
+  var reqBelowOneSec = false; // let arr = [];
+  // arr.push(e.timeStamp)
+
+  setSession(e.timeStamp); // if(curTime = 0) {
+  // }
+
+  fetchOnInput(e);
 };
 
-searchInp.addEventListener('input', receiveVal);
-console.log('bot'); // const fetchUsers = async (content) => {
+var setSession = function setSession(timestamp) {
+  if (sessionStorage.getItem('reqTime')) {
+    sessionToArray();
+  } else {
+    sessionStorage.setItem("reqTime", timestamp);
+  }
+
+  console.log('set');
+};
+
+var sessionToArray = function sessionToArray() {
+  var sess = sessionStorage.getItem("reqTime");
+  var arr = [];
+
+  if (sess.length <= 0) {
+    arr = [];
+    console.log('true');
+  } else {
+    arr.push(JSON.stringify(sess));
+    console.log('false');
+  }
+
+  var obj = JSON.parse(arr);
+  sessionStorage.setItem("reqTime", obj);
+  console.log('sessToArr');
+};
+
+searchInp.addEventListener('input', receiveVal); // console.log('bot')
+// const fetchUsers = async (content) => {
 //     const data = await fetch('/', {
 //         method: "POST", 
 //         body: new URLSearchParams('content' + content)

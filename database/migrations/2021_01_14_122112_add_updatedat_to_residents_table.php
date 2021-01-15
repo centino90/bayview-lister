@@ -15,7 +15,8 @@ class AddUpdatedatToResidentsTable extends Migration
     public function up()
     {
         Schema::table('residents', function (Blueprint $table) {
-            $table->datetime('updated_at');
+            $table->datetime('updated_at')
+                ->nullable();
         });
     }
 

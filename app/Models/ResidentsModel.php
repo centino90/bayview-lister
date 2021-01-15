@@ -18,16 +18,19 @@ class ResidentsModel extends Model
     }
     public static function getRecsBySearch($s, $lim)
     {
-        $qry = DB::select(" SELECT full_name(fname, mname, lname) 
-                                AS FullName, created_at 
-                            FROM residents 
-                            WHERE fname LIKE ?
-                                OR lname LIKE ?
-                                OR CONCAT(fname, ' ',mname, ' ' , lname) LIKE ?
-                                OR CONCAT(fname, mname, lname) LIKE ?  
-                            LIMIT ?"
-                            , ['%' . $s . '%', '%' . $s . '%', '%' . $s . '%', '%' . $s . '%', $lim]
-                        );
+        $qry = DB::select('CALL searchRecords(?,?)',['%' . $s . '%', $lim]);
+        // $qry = DB::select(" SELECT full_name(fname, mname, lname) 
+        //                         AS FullName
+        //                         , created_at 
+        //                     FROM residents 
+        //                     WHERE fname LIKE ?
+        //                         OR mname LIKE ?
+        //                         OR lname LIKE ?
+        //                         OR CONCAT(fname, ' ', mname, ' ' , lname) LIKE ?
+        //                         OR CONCAT(fname, mname, lname) LIKE ?  
+        //                     LIMIT ?"
+        //                     , ['%' . $s . '%', '%' . $s . '%','%' . $s . '%', '%' . $s . '%', '%' . $s . '%', $lim]
+        //                 );
 
         return $qry;
     }
