@@ -11,7 +11,7 @@
         <div class="w-100 border-solid border-2 border-blue-200 flex">
             <input id="searchInp" type="text" class="flex-1" placeholder="Enter name">
         </div>
-        <ul id="searchOutput"></ul>
+        <ul id="searchOutput" class=""></ul>
         <form id="form" action="{{route('insertRecord')}}" method="post" class='flex gap-3 mb-4 mt-3'>
             @csrf
             <div class="max-h-10">

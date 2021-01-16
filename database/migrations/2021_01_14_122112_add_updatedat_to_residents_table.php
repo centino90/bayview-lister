@@ -15,8 +15,14 @@ class AddUpdatedatToResidentsTable extends Migration
     public function up()
     {
         Schema::table('residents', function (Blueprint $table) {
-            $table->datetime('updated_at')
-                ->nullable();
+            Schema::create('residents', function (Blueprint $table) {
+                $table->id();
+                $table->string('fname');
+                $table->string('mname');
+                $table->string('lname');
+                $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+                $table->timestamp('updated_at')->nullable();
+            });
         });
     }
 
@@ -27,8 +33,6 @@ class AddUpdatedatToResidentsTable extends Migration
      */
     public function down()
     {
-        Schema::table('residents', function (Blueprint $table) {
-            $table->dropColumn('updated_at');
-        });
+        Schema::dropIfExists('residents');
     }
 }

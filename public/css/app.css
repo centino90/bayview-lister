@@ -31175,6 +31175,11 @@ th {
   padding-left: 1rem;
 }
 
+.view-more:hover {
+  opacity: .5;
+  cursor: pointer;
+}
+
 @media (min-width: 640px) {
   .sm\:container {
     width: 100%;
@@ -183894,3 +183899,4 @@ th {
             animation: bounce 1s infinite;
   }
 }
+

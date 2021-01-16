@@ -1864,11 +1864,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 var searchInp = document.getElementById('searchInp');
-console.log(searchInp);
+var viewBtn = document.querySelectorAll('.view-more');
 
 var fetchOnInput = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee(e) {
-    var val, searchOut, data, res;
+    var val, searchOut, data, res, lis;
     return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
@@ -1899,11 +1899,17 @@ var fetchOnInput = /*#__PURE__*/function () {
             res = _context.sent;
             if (searchOut) searchOut.innerHTML = '';
             res.forEach(function (val) {
-              searchOut.innerHTML += "\n                                <li>".concat(val.FullName, " ").concat(val.created_at, "</li>\n                                ");
+              searchOut.innerHTML += "\n                                <li class=\"flex flex-row gap-x-2\">\n                                <p>".concat(val.FullName, " ").concat(val.created_at, "</p>\n                                <i class=\"view-more\">\n                                <svg class=\"w-6 h-6\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\" xmlns=\"http://www.w3.org/2000/svg\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z\"></path></svg>\n                                </i>\n                                </li>\n                                ");
             });
-            console.log(res);
+            lis = searchOut.querySelectorAll('li > p');
+            lis.forEach(function (el) {
+              var re = new RegExp(val, 'i');
+              var inn = el.innerHTML.replace(re, "<span style='color: green; background-color: yellow'>".concat(val, "</span>"));
+              el.innerHTML = inn;
+            });
+            addEventToView();
 
-          case 14:
+          case 16:
           case "end":
             return _context.stop();
         }
@@ -1917,56 +1923,44 @@ var fetchOnInput = /*#__PURE__*/function () {
 }();
 
 var receiveVal = function receiveVal(e) {
-  // console.log(e.target.value)
-  // console.log(e.key)
-  // console.log(e)
-  var curTime = 0;
-  var reqBelowOneSec = false; // let arr = [];
-  // arr.push(e.timeStamp)
+  var lastInd = sessionToArray(e.timeStamp);
+  var curTime = lastInd[1];
+  var prevTime = lastInd[0];
+  var relTime = curTime - prevTime;
 
-  setSession(e.timeStamp); // if(curTime = 0) {
-  // }
-
-  fetchOnInput(e);
-};
-
-var setSession = function setSession(timestamp) {
-  if (sessionStorage.getItem('reqTime')) {
-    sessionToArray();
-  } else {
-    sessionStorage.setItem("reqTime", timestamp);
+  if (relTime > 100) {
+    fetchOnInput(e);
   }
-
-  console.log('set');
 };
 
-var sessionToArray = function sessionToArray() {
-  var sess = sessionStorage.getItem("reqTime");
-  var arr = [];
+var sessionToArray = function sessionToArray(timestamp) {
+  var arr;
 
-  if (sess.length <= 0) {
+  if (sessionStorage.getItem("reqTime") === null) {
     arr = [];
-    console.log('true');
   } else {
-    arr.push(JSON.stringify(sess));
-    console.log('false');
+    arr = JSON.parse(sessionStorage.getItem("reqTime"));
   }
 
-  var obj = JSON.parse(arr);
-  sessionStorage.setItem("reqTime", obj);
-  console.log('sessToArr');
+  arr.push(timestamp);
+  var sliced = arr.slice(-2);
+  sessionStorage.setItem("reqTime", JSON.stringify(sliced));
+  return sliced;
 };
 
-searchInp.addEventListener('input', receiveVal); // console.log('bot')
-// const fetchUsers = async (content) => {
-//     const data = await fetch('/', {
-//         method: "POST", 
-//         body: new URLSearchParams('content' + content)
-//     });
-//     const res = await data.text()
-//     // tbody.innerHTML = res
-//     console.log(res)
-// }
+var viewMore = function viewMore(e) {
+  console.log('qwe');
+};
+
+var addEventToView = function addEventToView() {
+  viewBtn.forEach(function (btn) {
+    btn.addEventListener('click', viewMore);
+    console.log(btn);
+  });
+};
+
+searchInp.addEventListener('input', receiveVal);
+addEventToView();
 
 /***/ }),
 
