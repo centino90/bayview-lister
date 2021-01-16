@@ -10,6 +10,7 @@
 </head>
 
 <body class="bg-gray-200">
+    <div class="page-wrapper">
     <nav class="p-6 bg-white flex justify-between mb-10">
         <ul class="flex items-center">
             <li>
@@ -24,6 +25,7 @@
         </ul>
     </nav>
     @yield('content')
+    </div>
     <script src="{{ asset('js/app.js') }}"></script>
 </body>
 
