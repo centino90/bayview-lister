@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
-class ResidentsModel extends Model
+class RecordsModel extends Model
 {
     use HasFactory;
 
@@ -38,9 +38,9 @@ class ResidentsModel extends Model
     {
 
         $qry = DB::insert(" INSERT INTO 
-                                residents (fname, mname, lname) 
-                            VALUES (?, ?, ?)"
-                            , [$array['fname'], $array['mname'], $array['lname']]
+                                residents (fname, mname, lname, issue, purpose) 
+                            VALUES (?, ?, ?, ? ,?)"
+                            , [$array['fname'], $array['mname'], $array['lname'], $array['issue'], $array['purpose']]
                         );
         return $qry;
     }

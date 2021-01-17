@@ -34,52 +34,64 @@ var txtarea = document.querySelector('.txtarea');
 
 var fetchOnInput = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee(e) {
-    var val, searchOut, data, res, lis, viewBtn;
+    var val, searchOut, data, res, head, lis, viewBtn;
     return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
             val = e.target.value;
             searchOut = document.getElementById('searchOutput');
+            searchOut.classList.add('text-sm');
+            searchOut.innerHTML = 'Searching output...';
 
             if (!(val == '')) {
-              _context.next = 5;
+              _context.next = 7;
               break;
             }
 
             searchOut.innerHTML = '';
             return _context.abrupt("return");
 
-          case 5:
-            _context.next = 7;
+          case 7:
+            _context.next = 9;
             return fetch("/searchOnInput?s=".concat(val), {
               method: "GET"
             });
 
-          case 7:
+          case 9:
             data = _context.sent;
-            _context.next = 10;
+            _context.next = 12;
             return data.json();
 
-          case 10:
+          case 12:
             res = _context.sent;
+            searchOut.classList.remove('text-sm');
             if (searchOut) searchOut.innerHTML = '';
+            head = document.createElement('span');
+            head.classList.add('text-sm', 'text-gray-400');
+            head.innerHTML = 'Search Results: ';
+            searchOut.appendChild(head);
             res.forEach(function (val) {
               var pl = document.createElement('li');
               var p = document.createElement('p');
               var i = document.createElement('i');
+              var hid = document.createElement('div');
               pl.classList.add('flex', 'flex-row', 'gap-x-2');
+              p.classList.add('capitalize');
               p.innerHTML = "".concat(val.FullName, " ").concat(val.created_at);
+              hid.classList.add('hidden', 'hid');
+              hid.innerHTML = "   <span class=\"fullname\">".concat(val.FullName, "</span>\n                            <span class=\"issue\">").concat(val.issue, "</span>\n                            <span class=\"purpose\">").concat(val.purpose, "</span>\n                            <span class=\"create-date\">").concat(val.created_at, "</span>");
               i.classList.add('view-more');
-              i.innerHTML = '<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"></path></svg>';
+              i.innerHTML = '<svg class="w-6 h-6 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"></path></svg>';
               pl.appendChild(p);
               pl.appendChild(i);
+              pl.appendChild(hid);
               searchOut.appendChild(pl);
             });
             lis = searchOut.querySelectorAll('li > p');
             lis.forEach(function (el) {
               var re = new RegExp(val, 'i');
-              var inn = el.innerHTML.replace(re, "<span style='color: green; background-color: yellow'>".concat(val, "</span>"));
+              var inn = el.innerHTML.replace(re, "<span class=\"text-green-400\" style=\"background-color: yellow\">".concat(val, "</span>"));
               el.innerHTML = inn;
             });
             viewBtn = document.querySelectorAll('.view-more');
@@ -87,7 +99,7 @@ var fetchOnInput = /*#__PURE__*/function () {
               btn.addEventListener('click', viewMore);
             });
 
-          case 17:
+          case 24:
           case "end":
             return _context.stop();
         }
@@ -127,21 +139,24 @@ var sessionToArray = function sessionToArray(timestamp) {
 };
 
 var viewMore = function viewMore(e) {
-  console.log('qwe');
   var wrap = document.querySelector('body');
   var pgwrp = document.querySelector('.page-wrapper');
   var modal = document.createElement('div');
   var mHead = document.createElement('header');
   var mBody = document.createElement('main');
   var mFoot = document.createElement('footer');
-  mHead.innerHTML = " <h1>Header</h1>\n                        <i class=\"remove-view\">\n                        <svg class=\"w-6 h-6\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\" xmlns=\"http://www.w3.org/2000/svg\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M6 18L18 6M6 6l12 12\"></path></svg>\n                        </i>";
-  mBody.innerHTML = " <div>\n                            <label class=\"text-sm font-semibold\">Name</label>\n                            <p>Anthony Jay P. Ansit</p>\n                        </div> \n                        <div>\n                            <label class=\"text-sm font-semibold\">Issue</label>\n                            <p>Travel Pass</p>\n                        </div> \n                        <div>\n                            <label class=\"text-sm font-semibold\">Purpose</label>\n                            <p>Travel from Davao to Digos</p>\n                        </div> \n                        <div>\n                            <label class=\"text-sm font-semibold\">Issued At</label>\n                            <p>2020-16-2</p>\n                        </div> ";
-  mFoot.innerHTML = '<h1>Footer</h1>';
+  var hid = e.target.nextSibling;
+  var fdetails = hid.querySelectorAll('.fullname, .issue, .purpose, .create-date');
+  var fd = upCaseLetterOfEachWord(fdetails); //receives an array and returns an array that is uppercased
+
+  mHead.innerHTML = " <h1 class=\"flex gap-x-2\">\n                        <svg class=\"w-6 h-6\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\" xmlns=\"http://www.w3.org/2000/svg\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z\"></path></svg>\n                        Full Details\n                        </h1>\n                        <i class=\"remove-view\">\n                        <svg class=\"w-6 h-6\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\" xmlns=\"http://www.w3.org/2000/svg\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M6 18L18 6M6 6l12 12\"></path></svg>\n                        </i>";
+  mBody.innerHTML = " <div>\n                            <label class=\"text-sm font-semibold text-gray-400\">Name</label>\n                            <p class=\"capitalize\">".concat(fd[0], "</p>\n                        </div> \n                        <div>\n                            <label class=\"text-sm font-semibold text-gray-400\">Issue</label>\n                            <p class=\"capitalize\">").concat(fd[1], "</p>\n                        </div> \n                        <div>\n                            <label class=\"text-sm font-semibold text-gray-400\">Purpose</label>\n                            <p class=\"capitalize\">").concat(fd[2], "</p>\n                        </div> \n                        <div>\n                            <label class=\"text-sm font-semibold text-gray-400\">Issued At</label>\n                            <p class=\"capitalize\">").concat(fd[3], "</p>\n                        </div> ");
+  mFoot.innerHTML = '<h1></h1>';
   wrap.classList.add('overflow-y-hidden');
   modal.classList.add('transition', 'duration-500', 'ease-in-out', 'w-96', 'h-auto', 'flex', 'flex-col', 'fixed', 'inset-x-0', 'top-5', 'shadow-xl', 'bg-white', 'mx-auto', 'rounded-lg', 'rounded-t-none', 'z-2');
-  mHead.classList.add('flex-none', 'h-8', 'bg-yellow-300', 'px-3', 'flex', 'justify-between', 'items-center');
-  mBody.classList.add('flex-1', 'bg-gray-100', 'flex', 'flex-col', 'gap-y-2', 'px-3');
-  mFoot.classList.add('flex-none', 'h-8', 'bg-green-300', 'px-3');
+  mHead.classList.add('flex-none', 'h-8', 'bg-yellow-300', 'px-3', 'py-2', 'flex', 'justify-between', 'items-center');
+  mBody.classList.add('flex-1', 'bg-gray-100', 'flex', 'flex-col', 'gap-y-2', 'px-3', 'py-4');
+  mFoot.classList.add('flex-none', 'h-8', 'bg-green-300', 'px-3', 'py-2');
   pgwrp.classList.add('opacity-50', 'z-1', 'pointer-events-none');
   modal.appendChild(mHead);
   modal.appendChild(mBody);
@@ -153,6 +168,25 @@ var viewMore = function viewMore(e) {
     wrap.classList.remove('overflow-y-hidden');
     pgwrp.classList.remove('pointer-events-none', 'opacity-50', 'z-1');
   });
+};
+
+var upCaseLetterOfEachWord = function upCaseLetterOfEachWord(arr) {
+  var fd = [];
+
+  for (var i = 0; i < arr.length; i++) {
+    if (arr[i].textContent == 'null') arr[i].textContent = 'N/A';
+    var words = arr[i].textContent.split(" ");
+
+    for (var j = 0; j < words.length; j++) {
+      if (words[j].length == 1) words[j] = "".concat(words[j], ".");
+      words[j] = words[j][0].toUpperCase() + words[j].substr(1);
+    }
+
+    words = words.join(" ");
+    fd.push(words);
+  }
+
+  return fd;
 };
 
 var resizeTxtArea = function resizeTxtArea(e) {

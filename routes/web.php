@@ -12,13 +12,20 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-use App\Http\Controllers\Residents;
+use App\Http\Controllers\Dashboard;
+use App\Http\Controllers\Records;
+use App\Http\Controllers\Reports;
 
-Route::get('/posts', [Residents::class, 'index'])->name('home');
+//dashboard
+Route::get('/', [Dashboard::class, 'index'])->name('dashboard');
 
-Route::get('/searchOnInput', [Residents::class, 'searchOnInput'])->name('searchOnInput');
+// records
+Route::get('/records', [Records::class, 'index'])->name('records');
+Route::get('/searchOnInput', [Records::class, 'searchOnInput'])->name('searchOnInput');
+Route::post('/insertRecord', [Records::class, 'insertRecord'])->name('insertRecord');
 
-Route::post('/insertRecord', [Residents::class, 'insertRecord'])->name('insertRecord');
+// reports
+Route::get('/reports', [Reports::class, 'index'])->name('reports');
 
 // Route::get('/dashboard', [DashboardController::class, 'index'])
 //     ->name('dashboard');
