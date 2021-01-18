@@ -48,7 +48,7 @@ class RecordsModel extends Model
     public static function updateRecord($array)
     {
         $qry = DB::update(" UPDATE residents 
-                                SET fname = ?, mname = ?, lname = ?, issue = ?, purpose = ?, issue_date = ? 
+                                SET fname = ?, mname = ?, lname = ?, issue = ?, purpose = ?, issue_date = ?, updated_at = CURRENT_TIMESTAMP 
                             WHERE id = ?"
                             , [$array['fname'], $array['mname'], $array['lname'], $array['issue'], $array['purpose'], $array['issue_date'], $array['id']]
                         );
