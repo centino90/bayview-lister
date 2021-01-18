@@ -41,7 +41,7 @@ var fetchOnInput = /*#__PURE__*/function () {
           case 0:
             val = e.target.value;
             searchOut = document.getElementById('searchOutput');
-            searchOut.classList.add('text-sm');
+            searchOut.classList.add('text-sm', 'pt-2');
             searchOut.innerHTML = 'Searching output...';
 
             if (!(val == '')) {
@@ -65,27 +65,35 @@ var fetchOnInput = /*#__PURE__*/function () {
 
           case 12:
             res = _context.sent;
-            searchOut.classList.remove('text-sm');
+            searchOut.classList.remove('text-sm', 'pt-2');
             if (searchOut) searchOut.innerHTML = '';
             head = document.createElement('span');
-            head.classList.add('text-sm', 'text-gray-400');
+            head.classList.add('text-sm', 'text-gray-400', 'pt-2');
             head.innerHTML = 'Search Results: ';
             searchOut.appendChild(head);
             res.forEach(function (val) {
               var pl = document.createElement('li');
               var p = document.createElement('p');
               var i = document.createElement('i');
+              var iup = document.createElement('i');
+              var idel = document.createElement('i');
               var hid = document.createElement('div');
               pl.classList.add('flex', 'flex-row', 'gap-x-2');
               p.classList.add('capitalize');
-              p.innerHTML = "".concat(val.FullName, " ").concat(val.created_at);
+              p.innerHTML = "".concat(val.FullName, " ").concat(val.issue_date);
               hid.classList.add('hidden', 'hid');
-              hid.innerHTML = "   <span class=\"fullname\">".concat(val.FullName, "</span>\n                            <span class=\"issue\">").concat(val.issue, "</span>\n                            <span class=\"purpose\">").concat(val.purpose, "</span>\n                            <span class=\"create-date\">").concat(val.created_at, "</span>");
+              hid.innerHTML = "   <span class=\"fullname\">".concat(val.FullName, "</span>\n                            <span class=\"issue\">").concat(val.issue, "</span>\n                            <span class=\"purpose\">").concat(val.purpose, "</span>\n                            <span class=\"issue_date\">").concat(val.issue_date, "</span>");
               i.classList.add('view-more');
+              iup.classList.add('edit-more');
+              idel.classList.add('delete-more');
               i.innerHTML = '<svg class="w-6 h-6 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"></path></svg>';
+              iup.innerHTML = '<svg class="w-5 h-5 pointer-events-none" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z"></path><path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd"></path></svg>';
+              idel.innerHTML = ' <svg class="w-5 h-5 pointer-events-none" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>';
               pl.appendChild(p);
               pl.appendChild(i);
               pl.appendChild(hid);
+              pl.appendChild(iup);
+              pl.appendChild(idel);
               searchOut.appendChild(pl);
             });
             lis = searchOut.querySelectorAll('li > p');
@@ -138,38 +146,6 @@ var sessionToArray = function sessionToArray(timestamp) {
   return sliced;
 };
 
-var viewMore = function viewMore(e) {
-  var wrap = document.querySelector('body');
-  var pgwrp = document.querySelector('.page-wrapper');
-  var modal = document.createElement('div');
-  var mHead = document.createElement('header');
-  var mBody = document.createElement('main');
-  var mFoot = document.createElement('footer');
-  var hid = e.target.nextSibling;
-  var fdetails = hid.querySelectorAll('.fullname, .issue, .purpose, .create-date');
-  var fd = upCaseLetterOfEachWord(fdetails); //receives an array and returns an array that is uppercased
-
-  mHead.innerHTML = " <h1 class=\"flex gap-x-2\">\n                        <svg class=\"w-6 h-6\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\" xmlns=\"http://www.w3.org/2000/svg\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z\"></path></svg>\n                        Full Details\n                        </h1>\n                        <i class=\"remove-view\">\n                        <svg class=\"w-6 h-6\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\" xmlns=\"http://www.w3.org/2000/svg\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M6 18L18 6M6 6l12 12\"></path></svg>\n                        </i>";
-  mBody.innerHTML = " <div>\n                            <label class=\"text-sm font-semibold text-gray-400\">Name</label>\n                            <p class=\"capitalize\">".concat(fd[0], "</p>\n                        </div> \n                        <div>\n                            <label class=\"text-sm font-semibold text-gray-400\">Issue</label>\n                            <p class=\"capitalize\">").concat(fd[1], "</p>\n                        </div> \n                        <div>\n                            <label class=\"text-sm font-semibold text-gray-400\">Purpose</label>\n                            <p class=\"capitalize\">").concat(fd[2], "</p>\n                        </div> \n                        <div>\n                            <label class=\"text-sm font-semibold text-gray-400\">Issued At</label>\n                            <p class=\"capitalize\">").concat(fd[3], "</p>\n                        </div> ");
-  mFoot.innerHTML = '<h1></h1>';
-  wrap.classList.add('overflow-y-hidden');
-  modal.classList.add('transition', 'duration-500', 'ease-in-out', 'w-96', 'h-auto', 'flex', 'flex-col', 'fixed', 'inset-x-0', 'top-5', 'shadow-xl', 'bg-white', 'mx-auto', 'rounded-lg', 'rounded-t-none', 'z-2');
-  mHead.classList.add('flex-none', 'h-8', 'bg-yellow-300', 'px-3', 'py-2', 'flex', 'justify-between', 'items-center');
-  mBody.classList.add('flex-1', 'bg-gray-100', 'flex', 'flex-col', 'gap-y-2', 'px-3', 'py-4');
-  mFoot.classList.add('flex-none', 'h-8', 'bg-green-300', 'px-3', 'py-2');
-  pgwrp.classList.add('opacity-50', 'z-1', 'pointer-events-none');
-  modal.appendChild(mHead);
-  modal.appendChild(mBody);
-  modal.appendChild(mFoot);
-  wrap.appendChild(modal);
-  var revViewBtn = document.querySelector('.remove-view');
-  revViewBtn.addEventListener('click', function () {
-    modal.remove();
-    wrap.classList.remove('overflow-y-hidden');
-    pgwrp.classList.remove('pointer-events-none', 'opacity-50', 'z-1');
-  });
-};
-
 var upCaseLetterOfEachWord = function upCaseLetterOfEachWord(arr) {
   var fd = [];
 
@@ -196,7 +172,17 @@ var resizeTxtArea = function resizeTxtArea(e) {
   }, 0);
 };
 
+var focusSearchDiv = function focusSearchDiv(e) {
+  var parentDiv = e.target.parentNode.parentNode;
+  parentDiv.classList.toggle('border-2');
+  parentDiv.classList.toggle('border-solid');
+  parentDiv.classList.toggle('border-blue-500');
+  parentDiv.classList.toggle('shadow-xl');
+};
+
 searchInp.addEventListener('input', receiveVal);
+searchInp.addEventListener('focus', focusSearchDiv);
+searchInp.addEventListener('blur', focusSearchDiv);
 txtarea.addEventListener('keydown', resizeTxtArea);
 
 /***/ }),

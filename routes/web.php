@@ -23,6 +23,8 @@ Route::get('/', [Dashboard::class, 'index'])->name('dashboard');
 Route::get('/records', [Records::class, 'index'])->name('records');
 Route::get('/searchOnInput', [Records::class, 'searchOnInput'])->name('searchOnInput');
 Route::post('/insertRecord', [Records::class, 'insertRecord'])->name('insertRecord');
+Route::post('/updateRecord', [Records::class, 'updateRecord'])->name('updateRecord');
+Route::post('/deleteRecord', [Records::class, 'deleteRecord'])->name('deleteRecord');
 
 // reports
 Route::get('/reports', [Reports::class, 'index'])->name('reports');

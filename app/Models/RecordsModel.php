@@ -13,7 +13,7 @@ class RecordsModel extends Model
     public static function getRecordsByTen($lim)
     {
 
-        $qry = DB::select("SELECT * FROM residents LIMIT ?", [$lim]);
+        $qry = DB::select("SELECT full_name(fname, mname, lname) AS FullName, issue, purpose, issue_date FROM residents ORDER BY issue_date DESC, full_name(fname, mname, lname) ASC LIMIT ?", [$lim]);
         return $qry;
     }
     public static function getRecsBySearch($s, $lim)
@@ -38,10 +38,21 @@ class RecordsModel extends Model
     {
 
         $qry = DB::insert(" INSERT INTO 
-                                residents (fname, mname, lname, issue, purpose) 
-                            VALUES (?, ?, ?, ? ,?)"
-                            , [$array['fname'], $array['mname'], $array['lname'], $array['issue'], $array['purpose']]
+                                residents (fname, mname, lname, issue, purpose, issue_date) 
+                            VALUES (?, ?, ?, ? ,?, ?)"
+                            , [$array['fname'], $array['mname'], $array['lname'], $array['issue'], $array['purpose'], $array['issueDate']]
                         );
+        return $qry;
+    }
+    
+    public static function updateRecord($array)
+    {
+        $qry = DB::update(" UPDATE residents 
+                                SET fname = ?, mname = ?, lname = ?, issue = ?, purpose = ?, issue_date = ? 
+                            WHERE id = ?"
+                            , [$array['fname'], $array['mname'], $array['lname'], $array['issue'], $array['purpose'], $array['issue_date'], $array['id']]
+                        );
+
         return $qry;
     }
 }

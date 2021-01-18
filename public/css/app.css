@@ -31175,7 +31175,7 @@ th {
   padding-left: 1rem;
 }
 
-.view-more:hover {
+.view-more:hover, .delete-more:hover, .edit-more:hover {
   opacity: .5;
   cursor: pointer;
 }

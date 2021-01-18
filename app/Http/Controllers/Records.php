@@ -31,11 +31,12 @@ class Records extends Controller
     public function insertRecord(Request $request)
     {
         $this->validate($request, [
-            'fname' => 'required|max:100',
-            'mname' => 'required|max:1',
-            'lname' => 'required|max:100',
+            'fname' => 'required|string|max:100',
+            'mname' => 'required|alpha|max:1',
+            'lname' => 'required|string|max:100',
             'issue' => 'required|max:100',
-            'purpose' => 'max:300'
+            'purpose' => 'max:300',
+            'issueDate' => 'required|date'
         ]);
 
         if(RecordsModel::createRecord([
@@ -43,7 +44,8 @@ class Records extends Controller
             'mname' => $request->mname,
             'lname' => $request->lname,
             'issue' => $request->issue,
-            'purpose' => $request->purpose
+            'purpose' => $request->purpose,
+            'issueDate' => $request->issueDate
         ])) {
 
             $request->session()->flash('success', 'Certification was Successfully Recorded!');
@@ -52,5 +54,40 @@ class Records extends Controller
             $request->session()->flash('failed', 'There was a problem with the request! Please Try Again');
         }
         return redirect()->route('records');
+    }
+
+    public function updateRecord(Request $request)
+    {
+        $this->validate($request, [
+            'id' => 'required|string|max:50',
+            'fname' => 'required|string|max:50',
+            'mname' => 'required|string|max:1',
+            'lname' => 'required|string|max:50',
+            'issue' => 'required|max:100',
+            'purpose' => 'max:300',
+            'issue_date' => 'required|date'
+        ]);
+
+        if(RecordsModel::updateRecord([
+            'id' => $request->id,
+            'fname' => $request->fname,
+            'mname' => $request->mname,
+            'lname' => $request->lname,
+            'issue' => $request->issue,
+            'purpose' => $request->purpose,
+            'issue_date' => $request->issue_date
+        ])) {
+
+            $request->session()->flash('success-edit', 'Certification was Updated Successfully!');
+
+        } else {
+            $request->session()->flash('failed', 'There was a problem with the request! Please Try Again');
+        }
+        return redirect()->route('records');
+    }
+
+    public function deleteRecord()
+    {
+
     }
 }

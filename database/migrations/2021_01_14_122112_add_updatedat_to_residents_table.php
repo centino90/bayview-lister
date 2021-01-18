@@ -19,11 +19,12 @@ class AddUpdatedatToResidentsTable extends Migration
         Schema::create('residents', function (Blueprint $table) {
             //columns
             $table->id();
-            $table->string('fname');
-            $table->string('mname');
-            $table->string('lname');
-            $table->string('issue');
-            $table->string('purpose')->nullable();
+            $table->string('fname', 50);
+            $table->char('mname', 1);
+            $table->string('lname', 50);
+            $table->string('issue', 50);
+            $table->string('purpose', 100)->nullable();
+            $table->date('issue_date');
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->nullable();
             //non columns
