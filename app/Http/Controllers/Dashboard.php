@@ -20,6 +20,6 @@ class Dashboard extends Controller
             'total' => $totalCount[0]
         ];
 
-        return view('posts.dashboard', $data);
+        return view('pages.dashboard', $data);
     }
 }

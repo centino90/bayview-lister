@@ -20,11 +20,13 @@ class AddUpdatedatToResidentsTable extends Migration
             //columns
             $table->id();
             $table->string('fname', 50);
-            $table->char('mname', 1);
+            $table->char('mname', 1)->nullable();
             $table->string('lname', 50);
             $table->string('issue', 50);
+            $table->string('category', 30);
             $table->string('purpose', 100)->nullable();
             $table->date('issue_date');
+            $table->string('session', 2);
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->nullable();
             //non columns

@@ -1,0 +1,5 @@
+searchInp.addEventListener('input', receiveVal)
+searchInp.addEventListener('focus', focusSearchDiv, true)
+searchInp.addEventListener('blur', unfocusSearchDiv, true)
+txtarea.addEventListener('keydown', resizeTxtArea)
+tbldate.addEventListener('change', fetchOnDateChange)

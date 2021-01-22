@@ -1,20 +1,22 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="flex justify-center items-start flex-wrap gap-x-3 gap-y-5 px-3">
+<!-- Page Heading -->
+<header class="bg-white shadow">
+    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 flex gap-x-3 text-lg">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"></path>
+        </svg>
+        {{ $title }}
+    </div>
+</header>
+<div class="flex justify-center items-start flex-wrap gap-x-3 gap-y-5 px-3 mt-5">
     <div class="flex-auto bg-white p-6 rounded-lg">
-        <h1 class="text-lg font-semibold flex items-center gap-x-2">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"></path>
-            </svg>
-            {{$title}}
-        </h1>
-
         <div class="cards w-full flex flex-wrap justify-center gap-x-6 gap-y-6 mt-8">
             <a href="{{route('records')}}">
                 <div class="w-96 bg-blue-200 flex flex-col card card-daily hover:bg-blue-300 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-opacity-50 shadow-sm">
                     <div class="w-full pl-4 py-3 flex flex-col gap-y-3">
-                        <p class="text-2xl bg-white opacity-75 shadow-md text-center">Certifications generated today</p>
+                        <p class="text-2xl bg-white opacity-75 shadow-md text-center">Certifications issued today</p>
                         <h1 class="ml-3 card-circle text-7xl font-semibold text-purple-700 rounded-full h-24 w-24 flex items-center justify-center bg-white">{{$daily->count}}</h1>
                     </div>
                     <div class="w-full px-4 py-2 bg-red-100 text-sm font-semibold flex gap-x-2 items-center card-footer">
