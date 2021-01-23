@@ -12,4 +12,4 @@ php composer.phar install
 npm install
 
 ![Alt Text](snap.png)
- <img src="https://github.com/centino90/carcrasher/blob/master/snap.png" width="200" height="500"/>
+ <img src="https://github.com/centino90/bayview-lister/blob/master/snap.png" width="300" height="500"/>
