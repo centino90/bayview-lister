@@ -10,3 +10,5 @@ php composer.phar install
 
 ### npm
 npm install
+
+![Alt Text](snap.png)
