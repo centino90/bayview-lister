@@ -11,7 +11,7 @@ php composer.phar install
 ### npm
 npm install
 
- <img src="https://github.com/centino90/bayview-lister/blob/main/snap1.png" width="1000" height="500"/>
+ <img src="https://github.com/centino90/bayview-lister/blob/main/snap1.png" width="700" height="500"/>
  <img src="https://github.com/centino90/bayview-lister/blob/main/snap2.png" width="1000" height="500"/>
  <img src="https://github.com/centino90/bayview-lister/blob/main/snap3.png" width="1000" height="500"/>
  <img src="https://github.com/centino90/bayview-lister/blob/main/snap4.png" width="1000" height="500"/>
